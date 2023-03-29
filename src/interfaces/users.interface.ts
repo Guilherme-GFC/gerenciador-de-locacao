@@ -3,11 +3,12 @@ import { DeepPartial } from "typeorm";
 import {
 	returnUserSchema,
 	userSchema,
-	userUpdateSchema,
+	manyReturnUserSchema,
 } from "../schemas/users.schemas";
 
 type IUser = z.infer<typeof userSchema>;
 type IUserReturn = z.infer<typeof returnUserSchema>;
-type IUserUpdate = DeepPartial<z.infer<typeof userUpdateSchema>>;
+type IUserUpdate = DeepPartial<IUser>;
+type IUsersReturn = z.infer<typeof manyReturnUserSchema>;
 
-export { IUser, IUserReturn, IUserUpdate };
+export { IUser, IUserReturn, IUserUpdate, IUsersReturn };
