@@ -1,6 +1,8 @@
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, Entity, ManyToMany, OneToMany, JoinTable } from "typeorm";
 import { CommonData } from "./commonData.entity";
 import { Lease } from "./lease.entity";
+import { Hour_Available } from "./hour_available.entity";
+import { Unavailable_Day } from "./unavailable_day.entity";
 
 @Entity("locations")
 export class Location extends CommonData {
@@ -15,4 +17,12 @@ export class Location extends CommonData {
 
 	@OneToMany(() => Lease, (lease) => lease.location)
 	leases: Lease[];
+
+	@ManyToMany(() => Hour_Available)
+	@JoinTable()
+	hours: Hour_Available[];
+
+	@ManyToMany(() => Unavailable_Day)
+	@JoinTable()
+	unavailable_days: Unavailable_Day[];
 }
