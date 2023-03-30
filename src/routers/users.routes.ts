@@ -15,12 +15,14 @@ import {
 // middlewares
 import ensureDataIsValidMiddleware from "../middlewares/ensureDataIsValid.middleware";
 import ensureUserExistsMiddleware from "../middlewares/ensureUserExists.middleware";
+import ensureEmailIsNotUsedMiddleware from "../middlewares/ensureEmailIsNotUsed.middleware";
 
 const userRoutes: Router = Router();
 
 userRoutes.post(
 	"",
 	ensureDataIsValidMiddleware(userSchema),
+	ensureEmailIsNotUsedMiddleware,
 	createUserController
 );
 
