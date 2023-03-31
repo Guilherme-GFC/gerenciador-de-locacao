@@ -10,12 +10,16 @@ import {
 	updateUserController,
 	deleteUserController,
 	listUsersController,
+	restoreUserController,
 } from "../controllers/users.controllers";
 
 // middlewares
 import ensureDataIsValidMiddleware from "../middlewares/ensureDataIsValid.middleware";
 import ensureUserExistsMiddleware from "../middlewares/ensureUserExists.middleware";
 import ensureEmailIsNotUsedMiddleware from "../middlewares/ensureEmailIsNotUsed.middleware";
+import ensureTokenValidMiddleware from "../middlewares/ensureTokenValid.middleware";
+import ensureOwnerOrAdminMiddleware from "../middlewares/ensureOwnerOrAdmin.middleware";
+import ensureAdminMiddleware from "../middlewares/ensureAdmin.middleware";
 
 const userRoutes: Router = Router();
 
@@ -26,14 +30,37 @@ userRoutes.post(
 	createUserController
 );
 
-userRoutes.get("", listUsersController);
-userRoutes.get("/:id", ensureUserExistsMiddleware, retrieveUserController);
+userRoutes.get(
+	"",
+	ensureTokenValidMiddleware,
+	ensureAdminMiddleware,
+	listUsersController
+);
+userRoutes.get(
+	"/:id",
+	ensureTokenValidMiddleware,
+	ensureOwnerOrAdminMiddleware,
+	ensureUserExistsMiddleware,
+	retrieveUserController
+);
 userRoutes.patch(
 	"/:id",
+	ensureTokenValidMiddleware,
 	ensureUserExistsMiddleware,
 	ensureDataIsValidMiddleware(userUpdateSchema),
 	updateUserController
 );
-userRoutes.delete("/:id", ensureUserExistsMiddleware, deleteUserController);
+userRoutes.delete(
+	"/:id",
+	ensureTokenValidMiddleware,
+	ensureUserExistsMiddleware,
+	deleteUserController
+);
+userRoutes.patch(
+	"/restore",
+	ensureTokenValidMiddleware,
+	ensureAdminMiddleware,
+	restoreUserController
+);
 
 export default userRoutes;

@@ -7,6 +7,7 @@ import listUsersService from "../services/users/listUsers.service";
 import retrieveUserService from "../services/users/retrieveUser.service";
 import updateUserService from "../services/users/updateUser.service";
 import deleteUserService from "../services/users/deleteUser.service";
+import restoreUserService from "../services/users/restoreUser.service";
 
 const createUserController = async (
 	req: Request,
@@ -53,10 +54,20 @@ const deleteUserController = async (
 	return res.status(204).json();
 };
 
+const restoreUserController = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
+	const userEmail: string = req.body.email;
+	const user = await restoreUserService(userEmail);
+	return res.status(200).json(user);
+};
+
 export {
 	createUserController,
 	listUsersController,
 	retrieveUserController,
 	updateUserController,
 	deleteUserController,
+	restoreUserController,
 };

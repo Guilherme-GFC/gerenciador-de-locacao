@@ -24,10 +24,16 @@ const createLoginService = async (loginData: ILogin): Promise<string> => {
 		throw new AppError("Wrong email or password", 401);
 	}
 
-	const token: string = jwt.sign({}, process.env.SECRET_KEY!, {
-		expiresIn: "24h",
-		subject: user.id,
-	});
+	const token: string = jwt.sign(
+		{
+			isAdm: user.isAdm,
+		},
+		process.env.SECRET_KEY!,
+		{
+			expiresIn: "24h",
+			subject: user.id,
+		}
+	);
 
 	return token;
 };
