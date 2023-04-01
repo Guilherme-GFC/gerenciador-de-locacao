@@ -1,7 +1,10 @@
 import { Router } from "express";
 
 //controllers
-import { restoreUserController } from "../controllers/restores.controllers";
+import {
+	restoreLocationController,
+	restoreUserController,
+} from "../controllers/restores.controllers";
 
 //middlewares
 import ensureTokenValidMiddleware from "../middlewares/ensureTokenValid.middleware";
@@ -14,6 +17,13 @@ restoreRoutes.patch(
 	ensureTokenValidMiddleware,
 	ensureAdminMiddleware,
 	restoreUserController
+);
+
+restoreRoutes.patch(
+	"/locations/:id",
+	ensureTokenValidMiddleware,
+	ensureAdminMiddleware,
+	restoreLocationController
 );
 
 export default restoreRoutes;

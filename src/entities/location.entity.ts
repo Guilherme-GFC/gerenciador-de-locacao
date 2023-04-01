@@ -12,8 +12,8 @@ export class Location extends CommonData {
 	@Column({ length: 47 })
 	address: string;
 
-	@Column({ length: 5, nullable: true })
-	number: string;
+	@Column({ type: "varchar", length: 5, nullable: true })
+	number?: string | null | undefined;
 
 	@OneToMany(() => Lease, (lease) => lease.location)
 	leases: Lease[];
