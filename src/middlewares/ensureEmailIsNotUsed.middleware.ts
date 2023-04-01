@@ -9,15 +9,18 @@ const ensureEmailIsNotUsedMiddleware = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const userRepository: Repository<User> = AppDataSource.getRepository(User);
-	const findUser = await userRepository.findOne({
-		where: {
-			email: req.body.email,
-		},
-	});
+	//verificação de existencia, para quando update vier não parar
+	if (req.body.email) {
+		const userRepository: Repository<User> = AppDataSource.getRepository(User);
+		const findUser = await userRepository.findOne({
+			where: {
+				email: req.body.email,
+			},
+		});
 
-	if (findUser) {
-		throw new AppError("Email already used", 409);
+		if (findUser) {
+			throw new AppError("Email already used", 409);
+		}
 	}
 
 	return next();

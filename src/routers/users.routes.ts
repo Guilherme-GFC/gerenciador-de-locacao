@@ -10,7 +10,6 @@ import {
 	updateUserController,
 	deleteUserController,
 	listUsersController,
-	restoreUserController,
 } from "../controllers/users.controllers";
 
 // middlewares
@@ -36,6 +35,7 @@ userRoutes.get(
 	ensureAdminMiddleware,
 	listUsersController
 );
+
 userRoutes.get(
 	"/:id",
 	ensureTokenValidMiddleware,
@@ -43,24 +43,21 @@ userRoutes.get(
 	ensureUserExistsMiddleware,
 	retrieveUserController
 );
+
 userRoutes.patch(
 	"/:id",
 	ensureTokenValidMiddleware,
-	ensureUserExistsMiddleware,
+	ensureOwnerOrAdminMiddleware,
 	ensureDataIsValidMiddleware(userUpdateSchema),
+	ensureEmailIsNotUsedMiddleware,
 	updateUserController
 );
+
 userRoutes.delete(
 	"/:id",
 	ensureTokenValidMiddleware,
 	ensureUserExistsMiddleware,
 	deleteUserController
-);
-userRoutes.patch(
-	"/restore",
-	ensureTokenValidMiddleware,
-	ensureAdminMiddleware,
-	restoreUserController
 );
 
 export default userRoutes;

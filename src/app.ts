@@ -9,6 +9,7 @@ import leaseRoutes from "./routers/leases.routes";
 import locationRoutes from "./routers/locations.routes";
 import loginRoutes from "./routers/login.routes";
 import userRoutes from "./routers/users.routes";
+import restoreRoutes from "./routers/restore.routes";
 
 const app: Application = express();
 
@@ -18,6 +19,7 @@ app.use("/users", userRoutes);
 app.use("/login", loginRoutes);
 app.use("/locations", locationRoutes);
 app.use("/leases", leaseRoutes);
+app.use("/restore", restoreRoutes);
 
 app.use(handleErrors);
 
