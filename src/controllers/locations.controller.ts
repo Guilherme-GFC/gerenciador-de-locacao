@@ -12,6 +12,8 @@ import listLocationsService from "../services/locations/listLocations.service";
 import retrieveLocationService from "../services/locations/retrieveLocation.service";
 import updateLocationService from "../services/locations/updateLocation.service";
 import deleteLocationService from "../services/locations/deleteLocation.service";
+import createLocationHourService from "../services/locations/createLocationHour.service";
+import removeLocationHourService from "../services/locations/removeLocationHour.service";
 
 const createLocationController = async (
 	req: Request,
@@ -59,10 +61,33 @@ const deleteLocationController = async (
 	return res.status(204).json();
 };
 
+// hours
+const createLocationHourController = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
+	const locationId: string = req.params.id;
+	const locationHour = req.body;
+	const location = await createLocationHourService(locationId, locationHour);
+	return res.status(201).json(location);
+};
+
+const removeLocationHourController = async (
+	req: Request,
+	res: Response
+): Promise<Response> => {
+	const locationId: string = req.params.id;
+	const hourId = req.params.hourId;
+	const message = await removeLocationHourService(locationId, hourId);
+	return res.status(201).json({ message: message });
+};
+
 export {
 	createLocationController,
 	listLocationsController,
 	retrieveLocationController,
 	updateLocationController,
 	deleteLocationController,
+	createLocationHourController,
+	removeLocationHourController,
 };
